@@ -10,6 +10,19 @@ var users = require('./routes/users');
 
 var app = express();
 
+var redis = require('redis');
+
+var redis_client = redis.createClient();
+app.redis_client = redis_client;
+
+app.redis_client.on('connect', function() {
+  console.log('redis client connected');
+});
+
+app.redis_client.on('error', function() {
+  console.log('Error connected to redis.')
+});
+
 // simple in-memory usage store
 var usages = [];
 app.usages = usages;
